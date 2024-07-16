@@ -1,51 +1,112 @@
 #include <stdio.h>
+#include <string.h>
 
+/*Tao struct de luu thong tin sinh vien*/
 typedef struct {
-   void (*start)(int gpio);
-   void (*stop)(int gpio);
-   void (*changeSpeed)(int gpio, int speed);
-} MotorController;
+   char ten[50];
+   float diemTrungBinh;
+   int id;
+} SinhVien;
 
-typedef int PIN;
-
-// Các hàm chung
-void startMotor(PIN pin) {
-   printf("Start motor at PIN %d\n", pin);
+int stringCompare(const char *str1, const char *str2) {
+   while (*str1 && (*str1 == *str2)) {
+       str1++;
+       str2++;
+   }
+   return *(const unsigned char*)str1 - *(const unsigned char*)str2;
 }
 
-void stopMotor(PIN pin) {
-   printf("Stop motor at PIN %d\n", pin);
+
+// Ham so sanh theo ten
+int compareByName(const void *a, const void *b) {
+   SinhVien *sv1 = (SinhVien *)a; // con tro -- ep kieu con tro SV
+   SinhVien *sv2 = (SinhVien *)b; // con tro -- ep kieu con tro SV
+   return stringCompare(sv1->ten, sv2->ten);
 }
 
-void changeSpeedMotor(PIN pin, int speed) {
-   printf("Change speed at PIN %d: %d\n", pin, speed);
-}
-
-// Macro de khoi tao GPIO và MotorController
-#define INIT_MOTOR(motorName, pinNumber) \
-   PIN PIN_##motorName = pinNumber; \
-   MotorController motorName = {startMotor, stopMotor, changeSpeedMotor};
-
-int main() {
-   // Su dung macro de khoi tao
-   INIT_MOTOR(motorA, 1);
-   INIT_MOTOR(motorB, 2);
-
-   // Su dung motor A
-   motorA.start(g_motorA);
-   motorA.changeSpeed(g_motorA, 50);
-   motorA.stop(g_motorA);
-
-   // Su dung motor B
-   motorB.start(g_motorB);
-   motorB.changeSpeed(g_motorB, 75);
-   motorB.stop(g_motorB);
-
+// Ham so sanh theo diem trung binh
+int compareByDiemTrungBinh(const void *a, const void *b) {
+   SinhVien *sv1 = (SinhVien *)a;
+   SinhVien *sv2 = (SinhVien *)b;
+   if (sv1->diemTrungBinh > sv2->diemTrungBinh)
+   {
+       return 1;
+   }
+  
    return 0;
 }
 
+// Ham so sanh theo ID
+int compareByID(const void *a, const void *b) {
+   SinhVien *sv1 = (SinhVien *)a;
+   SinhVien *sv2 = (SinhVien *)b;
+   return sv1->id - sv2->id;
+}
 
+// Ham sap xep chung
+/*Array o day la array ten sinh vien ma tao o trong ham main*/
+/*Size kich thuoc cua array*/
+/*Function pointer de dien ham minh muon tro toi*/
+void sort(SinhVien array[], size_t size, int (*compareFunc)(const void *, const void *)) {
+   int i, j;
+   SinhVien temp;
+   for (i = 0; i < size-1; i++)    
+       for (j = i+1; j < size; j++)
+           if (compareFunc(array+i, array+j)>0) {
+               temp = array[i];
+               array[i] = array[j];
+               array[j] = temp;
+           }
+}
 
+void display(SinhVien *array, size_t size) {
+   for (size_t i = 0; i < size; i++) {
+       printf("ID: %d, Ten: %s, Diem Trung Binh: %.2f\n", array[i].id, array[i].ten, array[i].diemTrungBinh);
+   }
+   printf("\n");
+}
+
+int main() {
+   SinhVien danhSachSV[] = {
+       {  
+           .ten = "Hoang",
+           .diemTrungBinh = 7.5,
+           .id = 100
+       },
+       {
+           .ten = "Huan",
+           .diemTrungBinh = 4.5,
+           .id = 101
+       },
+       {
+           .ten = "Vy",
+           .diemTrungBinh = 6.8,
+           .id = 102},
+       {  
+           .ten = "Ngan",
+           .diemTrungBinh = 5.6,
+           .id = 10
+       },
+   };
+   size_t size = sizeof(danhSachSV) / sizeof(danhSachSV[0]);
+
+   // Sap xep theo tï¿½n
+   sort(danhSachSV, size, compareByName);
+
+   display(danhSachSV, size);
+
+   // Sap xep theo diem trung bï¿½nh
+   sort(danhSachSV, size, compareByDiemTrungBinh);
+
+   display(danhSachSV, size);
+
+   // Sap xep theo ID
+   sort(danhSachSV, size, compareByID);
+
+   display(danhSachSV, size);
+
+   return 0;
+}
 
 
 
