@@ -1,0 +1,14 @@
+- Nội dung bài học: 
++ File.i 
++ Macro
+
+- file.h và file.c là source file
+
+- Include là lấy từ file khác cho vào, file.c hay .txt hay file gì cx dc cho vào file
+
+- Câu hỏi: Kích thước của macro là gì và kiểu dữ liệu ?
++ Macro không phải kiểu dữ liệu nào cả 
++ Macro là xảy ra ở quá trình tiền xử lý và nó thay thế đoạn được định nghĩa. Và nó định nghĩa mọi thứ 
++ Macro function phút 29
+
+- Câu hỏi: Sử dụng hàm và sử dụng macro khác nhau như nào

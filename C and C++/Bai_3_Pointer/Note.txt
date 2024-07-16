@@ -1,0 +1,13 @@
+- Địa chỉ và giá trị tại địa chỉ
+-> Khi khai báo thực chất nó ở 1 địa chỉ nào đó 
+
+- COn trỏ lưu địa chỉ -> int của con trỏ được hiểu là cái giá trị của nó là kiểu integer
+
+- Quay nói bài 20 giải thích code 
+
+- void trỏ đến địa chỉ của mọi đối tưởng -> nó không biết dc giá trị của con trỏ là kiểu dữ liệu gì -> ép kiểu
+
+- Hằng con trỏ không dc phép thay đổi thành địa chỉ khác dc phép sửa giá trị của địa chỉ
+- Con trỏ hằng không được phép sửa giá trị
+
+- NULL Pointer: Có địa chỉ 0x000 và có giá trị = 0
