@@ -50,7 +50,7 @@ int compareByID(const void *a, const void *b) {
 void sort(SinhVien array[], size_t size, int (*compareFunc)(const void *, const void *)) {
    int i, j;
    SinhVien temp;
-   for (i = 0; i < size-1; i++)    
+   for (i = 0; i < size-1; i++)   
        for (j = i+1; j < size; j++)
            if (compareFunc(array+i, array+j)>0) {
                temp = array[i];

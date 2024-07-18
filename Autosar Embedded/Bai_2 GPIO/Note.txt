@@ -1,0 +1,3 @@
+- Luôn cấp clock
+- Cấu hình ngoại vi
+- Sử dụng ngoại vi

@@ -11,3 +11,16 @@
 - Con trỏ hằng không được phép sửa giá trị
 
 - NULL Pointer: Có địa chỉ 0x000 và có giá trị = 0
+
+- chú ý lệnh trong phần code explain
+int stringCompare(const char *str1, const char *str2) {
+   while (*str1 && (*str1 == *str2)) {
+       str1++;
+       str2++;
+   }
+   return *(const unsigned char*)str1 - *(const unsigned char*)str2;
+}
+-> dễ bị nhầm lẫn và quên
+
+
++ Dùng char *str để khai báo 1 chuỗi kí tự -> tức là biến str đang nắm dữ địa chỉ của chuỗi kí tự, còn *str sẽ truy xuất vào từng kí tự của chuỗi kí tự đó -> đã dùng chuỗi kí tự thì dùng char *str 
