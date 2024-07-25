@@ -28,7 +28,6 @@ Project File Date:  07/17/2024
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
-compiling system_stm32f10x.c...
 compiling main.c...
 main.c(5): warning:  #1295-D: Deprecated declaration RCC_Config - give arg types
   void RCC_Config();
@@ -37,6 +36,7 @@ main.c(6): warning:  #1295-D: Deprecated declaration GPIO_Config - give arg type
 main.c(7): warning:  #1295-D: Deprecated declaration Led_Toggle - give arg types
   void Led_Toggle();
 main.c: 3 warnings, 0 errors
+compiling system_stm32f10x.c...
 linking...
 Program Size: Code=844 RO-data=252 RW-data=0 ZI-data=1632  
 ".\Objects\bai1.axf" - 0 Error(s), 3 Warning(s).
@@ -68,8 +68,8 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
       Include file:  RTE_Driver/Config/RTE_Device.h
-      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
       Source file:   Device/Source/system_stm32f10x.c
+      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

@@ -1,0 +1,12 @@
+.\objects\commontables.o: D:/KeliC/ARM/CMSIS-DSP/1.14.2/Source/CommonTables/CommonTables.c
+.\objects\commontables.o: D:/KeliC/ARM/CMSIS-DSP/1.14.2/Source/CommonTables/arm_common_tables.c
+.\objects\commontables.o: D:\KeliC\ARM\CMSIS-DSP\1.14.2\Include\arm_math_types.h
+.\objects\commontables.o: D:\KeliC\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\commontables.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\commontables.o: D:\KeliC\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\commontables.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+.\objects\commontables.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
+.\objects\commontables.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\float.h
+.\objects\commontables.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\limits.h
+.\objects\commontables.o: .\Libraries\CMSIS\Include\arm_common_tables.h
+.\objects\commontables.o: .\Libraries\CMSIS\Include\arm_math.h

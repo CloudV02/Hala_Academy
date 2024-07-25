@@ -6,6 +6,7 @@
 void RCC_Config(){
 	/**/
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2ENR_IOPCEN,ENABLE);
 }
 
 void TIM_Config(){
@@ -27,6 +28,19 @@ void TIM_Config(){
 
 	TIM_Cmd(TIM2,ENABLE);
 	TIM_TimeBaseInit(TIM2, &Tim_InitStruct);
+	
+	
+}
+void GPIO_Config(){
+	GPIO_InitTypeDef GPIO_InitStruct;
+	
+	GPIO_InitStruct.GPIO_Pin |= GPIO_Pin_13;
+	
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+	
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	
+	GPIO_Init(GPIOC,&GPIO_InitStruct);
 }
 
 void delay(uint32_t timedelay){
@@ -37,6 +51,12 @@ void delay(uint32_t timedelay){
 int main(){
 	RCC_Config();
 	TIM_Config();
-	delay(10000);
+	GPIO_Config();
+	while(1){
+		GPIO_SetBits(GPIOC, GPIO_Pin_13);
+		delay(5000);
+		GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+		delay(5000);
+	}
 }
 
