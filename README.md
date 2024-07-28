@@ -1,5 +1,4 @@
-* C & C++:
-
+C và C++
 LESSON 1: COMPILER AND MACRO -> Code và Lý thuyết trình bày trong C and C++ bài 1
 
 LESSON 2: STDARG AND ASSERT -> đang hoàn thành
