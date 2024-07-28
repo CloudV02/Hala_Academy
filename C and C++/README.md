@@ -1,5 +1,6 @@
 
 # COMPILER AND MACRO
+
 ==============
 
 ## 1. Compiler 
@@ -28,6 +29,7 @@ Là các chỉ thị tiền xử lý được xử lí trong quá trình Preproc
 - Va_args được sử dụng khi không xác định được tham số đầu vào trong macro. Cấu trúc được viết (...) __VA_ARGS__
 
 # BÀI POINTER:
+
 ==============
 
 ## 1. Khái niệm về Pointer 
@@ -36,37 +38,37 @@ VD: Với kiến trúc trên máy tính laptop 64bit thì size của sizeof(poin
 - Kiểu dữ liệu khai báo biến pointer sẽ là kiểu dữ liệu của giá trị tại địa chỉ đang được trỏ tới.
 
 ## 2. Các loại Pointer
-- Void Pointer: Dùng để trỏ tới 1 địa chỉ mà không cần biết kiểu dữ liệu của giá trị tại địa chỉ được trỏ tới. Nhưng muốn sử dụng giá trị trong địa chỉ đó thì phải ép kiểu về đúng kiểu dữ liệu của giá trị. Được sử dụng khi không xác định được kiểu dữ liệu được trỏ tới
+- **Void Pointer**: Dùng để trỏ tới 1 địa chỉ mà không cần biết kiểu dữ liệu của giá trị tại địa chỉ được trỏ tới. Nhưng muốn sử dụng giá trị trong địa chỉ đó thì phải ép kiểu về đúng kiểu dữ liệu của giá trị. Được sử dụng khi không xác định được kiểu dữ liệu được trỏ tới
 VD: Như trong hình dưới đây sẽ là 1 function pointer với 2 tham số đầu vào const void * . Con trỏ void được sử dụng ở đây vì ta đang không biết tham số được truyền vào là gì, vì đối với struct thì nó sẽ có nhiều kiểu dữ liệu bên trong struct.
 
 <img src="image/void pointer 1.png" alt="Logo" style="width: 100%; height: auto;">
 
 
 
-- Function Pointer : Dùng để trỏ tới 1 hàm trong chương trình. Nó thường được sử dụng khi ta muốn 1 hoặc nhiều hàm làm tham chiếu của 1 hàm khác -> Dùng để viết thư viện.
+- **Function Pointer** : Dùng để trỏ tới 1 hàm trong chương trình. Nó thường được sử dụng khi ta muốn 1 hoặc nhiều hàm làm tham chiếu của 1 hàm khác -> Dùng để viết thư viện.
 Như ví dụ dưới đây ta có thể thấy sử dụng khai báo 1 function pointer chưa trỏ tới địa chỉ nào cả, và nó sẽ tham sôs cho hàm Cal để khi ta muốn trỏ tới hàm nào chỉ cần nhập hàm đó vào, và biến function pointer sẽ trỏ tới địa chỉ của hàm đó và thực thi.
 
 <img src="image/function pointer 1.png" alt= "Logo" style = "width: 100%; height: auto;"> 
 <img src="image/function pointer 2.png" alt= "Logo" style = "width: 100%; height: auto;"> 
 
-- Pointer to Constant :  Định nghĩa 1 con trỏ không thể thay đổi giá trị của địa chỉ được trỏ đến. Muốn thay đổi được giá trị phải thay đổi đúng cái biến chứa giá trị đó.
+- **Pointer to Constant** :  Định nghĩa 1 con trỏ không thể thay đổi giá trị của địa chỉ được trỏ đến. Muốn thay đổi được giá trị phải thay đổi đúng cái biến chứa giá trị đó.
 Như trong đoạn code dưới đây ta khai báo 1 biến val lưu 1 giá trị 10 và 1 con trỏ pointer to constant trỏ tới địa chỉ của biến val. Nhưng cái khác với các biến bình thường khi ta truy xuất tới giá trị bằng con trỏ *ptr_cons để thay đổi giá trị thì trình biên dịch sẽ báo lỗi. Việc này sẽ ứng dụng vào việc ta muốn đưa 1 giá trị vào hàm và chỉ cho phép đọc, không cho phép thay đổi giá trị đó.
 
 <img src="image/Pointer to Constant.png" alt= "Logo" style = "width: 100%; height: auto;"> 
 
-- Constant Pointer: Định nghĩa 1 con trỏ địa chỉ nó trỏ tới sẽ không thể thay đổi. Tức là biến con trỏ này sẽ không thể trỏ tới 1 địa chỉ khác mà chỉ sử dụng dc 1 địa chỉ ban đầu.
+- **Constant Pointer**: Định nghĩa 1 con trỏ địa chỉ nó trỏ tới sẽ không thể thay đổi. Tức là biến con trỏ này sẽ không thể trỏ tới 1 địa chỉ khác mà chỉ sử dụng dc 1 địa chỉ ban đầu.
 Như ví dụ dưới đây khi ta khai báo 1 constant pointer và cho nó 1 địa chỉ thì khi nó thay đổi trình biên dịch sẽ báo lỗi. Ứng dụng trong nhúng vì địa chỉ trong các vi điều khiển thường được fix cứng. Đặc biệt như các hàm ngắt nó phải trỏ tới đúng địa chỉ cần đến, nếu thay đổi địa chỉ thì sẽ bị sai chương trình
 
-<code>
+```
     printf("******Constant Pointer**********\n");
 	int cons_val = 50;
 	int test_val = 10;
 	int *const const_ptr = &cons_val;
 	//const_ptr = &test_val; khong the tro toi dia chi khac
-</code>
-
+```
 
 # BÀI CÁC BIẾN ĐẶC BIỆT
+
 ====================
 
 ## 1. Extern
@@ -74,9 +76,9 @@ Như ví dụ dưới đây khi ta khai báo 1 constant pointer và cho nó 1 đ
 - Giúp cho chương trình có thể tách thành các phần nhỏ để dễ dàng quản lý
 
 ## 2. Static
-- Static local:
+- **Static local**:
 + Sẽ được khai báo trong 1 hàm và sẽ được cấp phát địa chỉ cho biến đó. Thông thường nếu không sử dụng local static cho biến đó nó sẽ được lưu trong vùng stack và khi thoát khỏi hàm sẽ biến mất, còn nếu sử dụng local static nó sẽ tồn tại trong suốt time chạy chương trình và có 1 địa chỉ cụ thể ở vùng bss nhưng biêns local static chỉ được sử dụng trong hàm mà khai báo biến đó. Nếu muốn sử dụng biến đó bên ngoài hàm, phải cần 1 biến con trỏ global trỏ tới địa chỉ của local static
-- Static global: 
+- **Static global**: 
 + Nó sẽ được coi như là 1 biến global thông thường trong file nguồn hiện tại, điểm khác duy nhất là các file nguồn khác không thể sử dụng extern để lấy biến đó.
 
 ## 3. Register
@@ -86,6 +88,7 @@ Như ví dụ dưới đây khi ta khai báo 1 constant pointer và cho nó 1 đ
 - Từ khóa này để cho trình biên dịch của chương trình luôn chạy dòng code đó vì nhiều trình biên dịch sẽ tối ưu hóa đoạn code là chỉ chạy 1 lần -> dẫn tới sai sót trong hệ thống nhúng, vì hệ thống nhúng có những exception nên khi quay về chương trình chính sẽ tiếp tục -> có thể gây sai sót. Khi dùng volatile giúp trình biên dịch hiểu là phải chạy dòng code đó lại.
 
 # BÀI GOTO SETJUMP
+
 ================
 
 ## 1. Goto
