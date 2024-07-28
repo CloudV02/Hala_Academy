@@ -90,12 +90,12 @@ int main() {
    };
    size_t size = sizeof(danhSachSV) / sizeof(danhSachSV[0]);
 
-   // Sap xep theo t�n
+   // Sap xep theo ten
    sort(danhSachSV, size, compareByName);
 
    display(danhSachSV, size);
 
-   // Sap xep theo diem trung b�nh
+   // Sap xep theo diem trung binh
    sort(danhSachSV, size, compareByDiemTrungBinh);
 
    display(danhSachSV, size);
