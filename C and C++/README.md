@@ -42,6 +42,9 @@ VD: Như trong hình dưới đây sẽ là 1 function pointer với 2 tham số
 - Function Pointer : Dùng để trỏ tới 1 hàm trong chương trình. Nó thường được sử dụng khi ta muốn 1 hoặc nhiều hàm làm tham chiếu của 1 hàm khác -> Dùng để viết thư viện.
 Như ví dụ dưới đây ta có thể thấy sử dụng khai báo 1 function pointer chưa trỏ tới địa chỉ nào cả, và nó sẽ tham sôs cho hàm Cal để khi ta muốn trỏ tới hàm nào chỉ cần nhập hàm đó vào, và biến function pointer sẽ trỏ tới địa chỉ của hàm đó và thực thi.
 
+<img src="image/function pointer 1.png" alt="Logo" width="800" height="600">
+<img src="image/function pointer 1.png" alt="Logo" width="800" height="600">
+
 <img src="image/function pointer 1.png" alt= "Logo" style = "width: 100%; height: auto;"> 
 <img src="image/function pointer 2.png" alt= "Logo" style = "width: 100%; height: auto;"> 
 
