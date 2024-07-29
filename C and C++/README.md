@@ -150,14 +150,133 @@ Như ví dụ dưới đây khi ta khai báo 1 constant pointer và cho nó 1 đ
 - Dùng extern để lấy 1 biến hoặc 1 hàm được khai báo global của nguồn file khác vào chương trình hiện tại của mình để sử dụng
 - Giúp cho chương trình có thể tách thành các phần nhỏ để dễ dàng quản lý
 
+**Khai báo chương trình 1**
+```C
+	#include <stdio.h>
+
+extern int a;
+extern void cong(int a, int b);
+
+int main(){
+    printf("%d\n",a);
+    cong(5,6);
+}
+```
+**Khai báo chương trình 2**
+```C
+#include <stdio.h>
+int a = 10;
+
+void cong(int a, int b){
+    printf("%d", a+b);
+}
+```
+Ở ví dụ này chương trình 1 sẽ lấy biến a và cả hàm void cong của chương trình 2 để dùng bằng việc sử dụng biến extern để lấy. Ứng dụng của việc chia file để mỗi chương trình sẽ có 1 nhiệm vụ riêng, và biến extern khi cần thiết sẽ lấy 1 biến hoặc hàm trong chương trình riêng đó để sử dụng
+Để chương trình tìm được biến của chương trình 2 phải linking với nhau gcc chuongtrinh1 chuongtrinh2 -o main
+
+**Kết quả**
+```C
+	10
+	11
+```
+
 ## 2. Static
 - **Static local**:
 + Sẽ được khai báo trong 1 hàm và sẽ được cấp phát địa chỉ cho biến đó. Thông thường nếu không sử dụng local static cho biến đó nó sẽ được lưu trong vùng stack và khi thoát khỏi hàm sẽ biến mất, còn nếu sử dụng local static nó sẽ tồn tại trong suốt time chạy chương trình và có 1 địa chỉ cụ thể ở vùng bss nhưng biêns local static chỉ được sử dụng trong hàm mà khai báo biến đó. Nếu muốn sử dụng biến đó bên ngoài hàm, phải cần 1 biến con trỏ global trỏ tới địa chỉ của local static
+
+**Chương trình**
+```C
+#include <stdio.h>
+void tong(){
+    /* variable */
+    int a = 0;
+    a++;
+    printf("bien thuong: %d\n",a);
+    /* static variable */
+    static int c = 0;
+    c++;
+    printf("bien static: %d\n",c);
+}
+int main(){
+    tong();
+    tong();
+    tong();
+}
+```
+Vói chương trình trên ta khai báo 1 biến local thông thường và 1 biến local static. Thì khi ra khỏi hàm kết quả nhận được như bên dưới. Thấy rằng giá trị của biến thường không thay đổi vì mỗi lần vào hàm nó sẽ khởi tạo lại vùng nhớ 1 lần nên khi dc cộng nên vẫn chỉ = 1. Còn đối với biến static khi gọi hàm lần đầu nó đã cấp phát cho biến đó 1 địa chỉ cố định nên khi chạy lại hàm nó thấy biến đó đã được khởi tạo và nó chỉ cần truy xuất lấy giá trị thực thi nên nó có thể thay đổi vì nó đã có địa chỉ trước đó. Nhưng biến static int c = 0; chỉ dùng được trong hàm nó được khai báo, muốn sử dụng nó phải có 1 con trỏ trỏ tới nó để lấy địa chỉ, lúc đó mới mang ra ngoài hàm để sử dụng
+**Kết quả**
+```
+	bien thuong: 1
+	bien static: 1
+	bien thuong: 1
+	bien static: 2
+	bien thuong: 1
+	bien static: 3
+```
+
 - **Static global**: 
 + Nó sẽ được coi như là 1 biến global thông thường trong file nguồn hiện tại, điểm khác duy nhất là các file nguồn khác không thể sử dụng extern để lấy biến đó.
+Như ví dụ dưới đây. Như ta thấy chương trình 1 extern lấy biến a của chương trình 2. Nhưng biến a của chương trình 2 là biến global static nên khi extern cho biến static này sẽ bị báo lỗi. Ứng dụng của biến static sẽ là không muốn cái biến đó được sử dụng ở 1 chương trình khác, để bảo vệ code.
+**Chương trình 1**
+```C
+#include <stdio.h>
+extern int a;
+extern void cong(int a, int b);
+int main(){
+    printf("%d\n",a);
+    cong(5,6);
+}
+```
+**Chương trình 2**
+```C
+#include 
+static int a = 10;
+void cong(int a, int b){
+    printf("%d", a+b);
+}
+```
+**Kết quả**
+```
+C:\Users\ASUS\AppData\Local\Temp\ccugdRGH.o:program_1.c:(.text+0xf): undefined reference to `a'
+collect2.exe: error: ld returned 1 exit status
+```
 
 ## 3. Register
 - Từ khóa này để cho người lập trình muốn cho 1 biến thường xuyên sử dụng được lưu trữ trong thanh ghi để sử dụng thay vì biến đos được lưu vùng nhớ RAM -> việc này làm tăng tốc độ xử lý của biến đó
+Như ví dụ dưới đây nếu ta bỏ từ khóa register ở biến i chương trình sẽ chạy lâu hơn so với thêm register, dù thời gian không đáng kể đối với máy cấu hình mạnh như lap. Nhưng đối với vi điều khiển nó có tốc độ xử lý chậm, thì việc sử dụng từ khóa register hợp lí sẽ giảm thời gian chuyển đổi của biến từ RAM tới ALU bằng việc lưu tại Register của vi điều khiển.
+
+**Chương trình ví dụ**
+```C
+#include <stdio.h>
+#include <time.h>
+
+int main() {
+    // Lưu thời điểm bắt đầu
+    clock_t start_time = clock();
+    register int i;
+
+    // Đoạn mã của chương trình
+    for (i = 0; i < 2000000; ++i) {
+        // Thực hiện một số công việc bất kỳ
+    }
+
+    // Lưu thời điểm kết thúc
+    clock_t end_time = clock();
+
+    // Tính thời gian chạy bằng miligiây
+    double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+
+    printf("Thoi gian chay cua chuong trinh: %f giay\n", time_taken);
+
+    return 0;
+}
+
+```
+**Kết quả**
+```
+Trước khi sử dụng từ khóa Register biến i: 0.0003000 giây
+Sau khi sử dụng từ khóa Register biến i: 0.0000000 giây
+```
 
 ## 4. Volatile
 - Từ khóa này để cho trình biên dịch của chương trình luôn chạy dòng code đó vì nhiều trình biên dịch sẽ tối ưu hóa đoạn code là chỉ chạy 1 lần -> dẫn tới sai sót trong hệ thống nhúng, vì hệ thống nhúng có những exception nên khi quay về chương trình chính sẽ tiếp tục -> có thể gây sai sót. Khi dùng volatile giúp trình biên dịch hiểu là phải chạy dòng code đó lại.
@@ -169,8 +288,141 @@ Như ví dụ dưới đây khi ta khai báo 1 constant pointer và cho nó 1 đ
 ## 1. Goto
 - Goto cho phép chương trình nhảy từ lệnh goto đến 1 label đã được đặt trước trong cùng 1 hàm.
 - Sử dụng goto giúp thực hiện chương trình nhanh gọn, nhưng sử dụng nhiều khiến chương trình khó quản lý. Nên vì vậy chỉ nên dùng goto với những chương trình có nhiều vòng lặp
+Ví dụ về goto: Đây là chương trình chạy đến khi lớn hơn = 5 thì chương trình sẽ kết thúc. Đầu tiên nó sẽ chạy đi qua hàm if vì lúc này i = 0, rồi lúc này nó sẽ gặp lệnh goto start, lệnh này sẽ gọi ra cái label start và chương trình sẽ nhảy đến lable và tiếp tục chương trình, cho đến khi i>=5 nó mới vào điều kiện if và gặp goto end để nhảy tới lable end và lable end này nằm ở cuối chương trình, nó sẽ thực hiện nốt các lệnh còn lại và kết thúc chương trình.
+**Chương trình**
+```C
+#include <stdio.h>
+int main(){
+	int i = 0;
+    start: // khi goi goto start se quay ve lable start
+    if(i>=5){
+        goto end;   
+    }
+    i++;
+    printf("%d\n",i);
+    goto start;
+    end: // khi goi goto end se quay ve lable start
+    printf("Ket thuc %d",i);
+}
+```
 
 ## 2. Setjmp.h
 - Là thư viện trong ngôn ngữ C. Thư viện này cung cấp 2 hàm setjump và longjmp. Các hàm này để xử lý ngoại lệ trong C
 - Nó khác goto ở chỗ có thể thay đổi điều kiện giống if và nó có thể khai báo toàn cục, trong khi Goto chỉ sử dụng trong cùng 1 hàm 
 - Thường dùng để báo lỗi trong chương trình
+
+Giải thích ví dụ: Để sử dụng các hàm setjump và longjmp ta phải khai báo thư viện setjump. Đầu tiên ta sẽ khai báo 1 biến jmp_buf buf, kiểu dữ liệu này được define trong thư viện setjmp, nó là tham số để điều chỉnh giá trị của hàm setjump(). Khi vào chương trình thì giá trị của hàm setjmp(buf) sẽ luôn là 0, muốn thay đổi giá trị của hàm này phải chạy đến hàm longjmp(buf,...) ... ở đây là 1 giá trị int nào đó. Và lúc đó hàm setjmp sẽ thay đổi giá trị dựa vào cái longjmp.
+Và nhờ việc biến buf là biến global nên vào ta có thể tạo ra các ngoại lệ ngắt chương trình. Như trong chương trình bên dưới ta sẽ có 1 ngoại lệ trong hàm nếu điều kiện đúng nó sẽ thoát ra khỏi hàm nhảy tới setjmp luôn mà không chạy tiếp cả hàm đó. Ứng dụng lớn nhất của thư viện setjmp.h là tạo ra các TRY CATCH THROW như ở trong Java hoặc Exception trong Python.
+**Chương trình ví dụ**
+```C
+#include <stdio.h>
+#include <setjmp.h>
+
+jmp_buf buf;
+
+double thuong(int a, int b){
+    if(b == 0){
+        longjmp(buf,1);
+    }
+    return a/(double)b;
+}
+int checkArray(int arr[], int size){
+    if(size <= 0){
+        longjmp(buf,2);
+    }
+}
+int main(){
+    int exception_code = setjmp(buf);
+
+    if (exception_code == 0)
+    {
+        double ketqua = thuong(8,3);
+        printf("%f\n",ketqua);
+
+        int array[0];
+        checkArray(array,sizeof(array));
+    }
+    else if(exception_code == 1){
+        printf("ERROR! Mau = 0\n");
+    }
+    else if(exception_code == 2){
+        printf("ERROR! Size array <= 0\n");
+    }
+}
+```
+
+# BÀI BIT MASK
+Bitmask là 1 kỹ thuật trong lập trình sử dụng các phép toán bit như AND OR XOR NOT SHIFT để thực hiện các trạng thái như thiết lập, hoặc xóa hoặc kiểm tra các bit cụ thể trong 1 Byte
+
+## Toán tử bitwise
+1. AND bitwise (&)
+Là toán tử thực hiện phép AND bitwise cho các cặp bit của 2 số. Kết quả là 1 nếu 2 bit tương ứng là 1, chỉ cần 1 bit là 0 sau khi thực hiện AND bitwise sẽ ra 0. Giống như việc nhân 2 bit 
+Như ví dụ bên dưới kết quả phép AND là 100 sau khi AND 125 & 100 , tương ứng sẽ là (0111 1101) & (0110 0100) = 110 0100 = 100
+
+2. OR bitwise (|)
+Là toán tử thực hiện phép OR bitwise cho các cặp bit của 2 số. Kết quả là 1 nếu 1 trong 2 bit OR với nhau là 1, và kết quả là 0 khi 2 bit tương ứng đều = 0. Giống như phép cộng giữa 2 bit
+Ví dụ bên dưới kết quả OR là 125 sau khi OR 125 | 100, tương ứng (0111 1101) | (0110 0100) = 0111 1101 = 125
+
+3. XOR bitwise (^)
+Là toán tử thực hiện phép XOR bitwise cho các cặp bit của 2 số. Kết quả là 1 nếu cặp bit tương ứng khác nhau, nếu giống nhau kết quả là 0
+Ví dụ bên dưới kết quả XOR là 25 sau khi XOR 125 ^ 100, tương ứng (0111 1101) ^ (0110 0100) = 0001 1001 = 25
+
+4. NOT bitwise(~)
+Dùng để thực hiện phép NOT bitwise trên từng bit của 1 số. Nó sẽ đảo trạng thái của bit đó nếu bit đó là 1 sẽ thành 0, 0 thành 1
+Ví dụ bên dưới ~(125) = 130 tương ứng ~(0111 1101) = (1000 0010) = 130, ~(100) = 155 tương ứng ~(0110 0100) = (1001 1011) = 155
+
+5. Shift left (<<)
+Để dịch bit sang trái, các bit sẽ dịch sang trái và phần bị dịch mất mà không có thông tin bit trước đó sẽ về 0
+Ví dụ (125) << 2 tương ứng (0111 1101) << 2 = 1111 0100 (244)
+
+6. Shift right (>>)
+Để dịch bit sang phải, các bit sẽ dịch sang phải và phần bị dịch mất mà không có thông tin bit trước đó sẽ về 0
+Ví dụ (100) >> 2 tương ứng (0110 0100) >> 2 = 0001 1001 (25)
+
+```C
+#include <stdio.h>
+
+#include <stdint.h>
+
+int main(){
+    uint8_t number_1 = 125; // 0111 1101
+    uint8_t number_2 = 100; // 0110 0100
+
+    // AND
+    uint8_t number_and  = number_1 & number_2;
+    printf("%d\n", number_and);
+
+    // OR
+    uint8_t number_or = number_1 | number_2;
+    printf("%d\n", number_or);
+
+    // XOR
+    uint8_t number_xor = number_1 ^ number_2;
+    printf("%d\n", number_xor);
+
+    // NOT
+    uint8_t number_not_1 = ~(number_1);
+    uint8_t number_not_2 = ~(number_2);
+    printf("%d\n", number_not_1);
+    printf("%d\n", number_not_2);
+
+    // SHIFT LEFT 
+    uint8_t number_shf_lef = number_1 << 2;
+    printf("%d\n", number_shf_lef);
+
+    // SHIFT RIGHT
+    uint8_t number_shf_right = number_2 >> 2;
+    printf("%d\n", number_shf_right);
+}
+```
+**Kết quả**
+```
+100
+125
+25
+130
+155
+244
+25
+```
+# BÀI STRUCT UNION
