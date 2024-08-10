@@ -28,15 +28,38 @@ Project File Date:  07/25/2024
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
-compiling system_stm32f10x.c...
-compiling stm32f10x_gpio.c...
 compiling misc.c...
+compiling system_stm32f10x.c...
 compiling main.c...
+main.c(77): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO, SPI_SCK_Pin, 0);
+main.c(79): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO, SPI_SCK_Pin, 1);
+main.c(84): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO, SPI_SCK_Pin, 0);
+main.c(85): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO, SPI_SS_Pin, 1);
+main.c(86): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO, SPI_MOSI_Pin, 0);
+main.c(87): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO, SPI_MISO_Pin, 0);
+main.c(94): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO,SPI_SS_Pin,0);
+main.c(98): warning:  #188-D: enumerated type mixed with another type
+  		GPIO_WriteBit(SPI_GPIO, SPI_MOSI_Pin, buffer_trans);
+main.c(101): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(SPI_GPIO,SPI_SS_Pin,1);
+main.c(124): warning:  #550-D: variable "data"  was set but never used
+  	uint8_t data[] = {};
+main.c(138): warning: C4487E: read from variable 'data' with offset out of bounds
+}
+main.c: 11 warnings, 0 errors
+compiling stm32f10x_gpio.c...
 compiling stm32f10x_rcc.c...
 compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=648 RO-data=252 RW-data=0 ZI-data=1632  
-".\Objects\sw_transmit.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=1328 RO-data=252 RW-data=0 ZI-data=1632  
+".\Objects\sw_transmit.axf" - 0 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -68,30 +91,30 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
-      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
       Source file:   Device/Source/system_stm32f10x.c
       Include file:  RTE_Driver/Config/RTE_Device.h
+      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
+      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
       Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Include file:  Device/StdPeriph_Driver/inc/misc.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
-      Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
+      Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
-      Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
-Build Time Elapsed:  00:00:01
+      Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

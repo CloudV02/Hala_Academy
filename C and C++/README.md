@@ -426,3 +426,181 @@ int main(){
 25
 ```
 # BÀI STRUCT UNION
+## 1. STRUCT
+- Struct là 1 kiểu cấu trúc dữ liệu do người lập trình tự định nghĩa bằng cách nhóm các biến có kiểu dữ liệu khác nhau lại với nhau. Việc có kiểu struct giúp tạo ra 1 thực thể dữ liệu lớn hơn và được tổ chức chặt chẽ.
+- Mỗi biến trong struct gọi là 1 thành viên hoặc trường
+VD: Thì x và y ở đây là thành viên của struct Test
+```C
+struct Test{
+    int x;
+    int y;
+}
+```
+- Kích thước của struct sẽ dựa vào kiểu dữ liêu, kích thước của các thành viên và ngoài ra còn phụ thuộc vào Alignment để căn chỉnh tại các địa chỉ bộ nhớ cụ thể, align này sẽ dưạ vào kiểu dữ liệu lớn nhất trong struct. Để đảm bảo alignment thì khoảng trôngs có thể được thêm vào giữa các thành phần của struct. Điều này khiến cho kích thước của struct luôn lớn hơn nếu như ta tính theo thông thường
+- Như ví dụ dưới đây ta sẽ tính toán kích thước của struct. Đầu tiên xác định được kiểu dữ liẹu lớn nhất là u32 -> aligment sẽ là 4 byte 
++ u8 var2[9] -> 9 byte sẽ được sử dụng mà aligment ở đây là 4 byte -> byte cuối cùng phải thêm padding để đúng với alignment của struct-> 8 byte + 1 byte + 3 byte padding
++ uint16_t var1[10] -> ta có u16 là kiểu dữ liệu chiếm 2 byte -> phần tử đầu tiên vẫn đủ số byte thêm vào padding -> 9 phần tử con lại với kiểu u16
+-> 9 * 2byte = 18 byte nhưng alignment = 4byte -> sẽ là 20 byte -> padding 2 byte -> 18 byte + 2 byte padding
++ uint32_t var3[2] -> u32 là kiểu dữ liệu chiêms 4 byte -> đúng alignment -> chiếm 8byte
+-> struct frame này có kích thước là 40 byte
+**Ví dụ**
+```C
+#include <stdio.h>
+#include <stdint.h>
+typedef struct{
+    uint8_t var2[9];
+    uint16_t var1[10];
+    uint32_t var3[2];
+
+}frame;
+int main(){
+    printf("%d", sizeof(frame));
+}
+```
+**Kết quả**
+```
+    40
+```
+
+## 2. Union
+- Union cũng là 1 kiểu dữ liệu do người lập trình tự định nghĩa bằng cách nhóm nhiều kiểu dữ liệu vào với nhau. Nhưng khác với struct thì các biến trong union sẽ chia sẻ cùng 1 vùng nhớ, tức là các biến trong union sẽ có 1 địa chỉ giống nhau, điều này sẽ giúp tiết kiệm bộ nhớ. Điều này cũng có nghĩa trong 1 thời điểm chỉ có 1 thành viên trong union được sử dụng nếu sử dụng nhiều hơn 1 thành viên có thể bị sai dữ liệu mình mong muốn. Ứng dụng của union thường ứng dụng vào nhúng, khi mà trong nhúng chỉ cần tác động từng bit không cần phải tác động cả 1 biến byte. Ngoài ra kiểu cấu trúc alingment giống như trong struct, nhưng kích thước sẽ dựa vào biến có kích thước  lơns nhất trong union
+- Ta sẽ phân tích ví dụ bên dưới để hiểu rõ cách share vùng nhớ của union. Ở union frame var2 có kiểu dữ liệu lơn nhất nó sẽ luôn lấy dữ liệu của toàn bộ bit tức là 32bit, var1 có kiểu dữ liệu là u8 nó sẽ chỉ lấy 8bit đầu, var3 thì có kiểu dữ liệu là u16 và nó lấy 16bit đầu
++ Ta truyền vào 1 số 4668481 tương ứng 0100 0111 0011 1100 0100 0001 lúc này biến var1 sẽ lấy 8 bit đầu 0100 0001 = 65, var2 sẽ lấy toàn bộ bit 0100 0111 0011 1100 0100 0001 = 4668481, var3 sẽ lấy 16 bit đầu 0011 1100 0100 0001 = 15,425
+
+**Ví dụ**
+```C
+#include <stdio.h>
+#include <stdint.h>
+
+typedef union{ 
+    uint8_t  var1; //  0 - 255
+    uint32_t var2; //  0 - 4294967295
+    uint16_t var3; //  0 - 65535
+} frame;
+
+int main(){
+    frame data;
+    //data.var1 = 5;
+    data.var2 = 4668481; // 0100 0111 0011 1100 0100 0001
+    //data.var3 = 7;
+
+    printf("Data.var1 = %d\n", data.var1);
+    printf("Data.var2 = %u\n", data.var2);
+    printf("Data.var3 = %d\n", data.var3);
+}
+```
+**Kết quả**
+```
+    Data.var1 = 65
+    Data.var2 = 4668481
+    Data.var3 = 15425
+```
+
+# BÀI MEMORY LAYOUT
+
+Các file sau quá trình build processing sẽ tạo ra các file thực thi như file.exe trên window hoặc như file.hex trên vi điều khiển để lưu vào bộ nhớ như SSD hoặc Flash. Sau đó khi chạy chương trình nó sẽ được copy lên bộ nhớ RAM để thực thi. Từ đó nó sẽ sinh ra các phân vùng nhớ để lưu trữ các dữ liệu lần lượt bao gồm Text segment, data segment, bss segment, heap segment, stack segment.
+
+## 1. Text Segment
+- Đây là vùng nhớ chứa tập hợp các lệnh thực thi
+- Trong quá trình chạy vùng nhớ này có quyền đọc và thực thi, và không có quyền ghi vào. Vậy nên các biến ở trong vùng text segment chỉ đọc được giá trị mà không thể thay đổi giá trị.
+- Các biến const global hay con trỏ kiểu char sẽ được ghi vào vùng nhớ này. Còn với biến const local thì dc lưu vào stack segment.
+Như ví dụ dưới đây ta có thể thấy địa chỉ của 2 biến nằm cách xa nhau biến const global sẽ được lưu ở vùng text, còn biến const local sẽ được lưu ở vùng stack. Đặc điểm chung là đều không thể thay đổi được biến const, còn khác nhau ở chỗ biến const local sẽ bị thu hồi khi ra khỏi hàm.
+```C
+#include<stdio.h>
+const int a_global = 5; // text
+// stack
+void test() {
+    const int a_local = 10; // stack
+    printf("%d\n", &a_local);
+}
+int main(){
+    printf("%d\n", &a_global); 
+    test();
+}
+```
+**Kết quả**
+```
+    4214884 // vung text
+    6422268 // vung stack
+```
+
+## 2. Data Segment (Initialized Data Segment)
+- Đây là vùng dữ liệu đã được khởi tạo, nó sẽ chứa các biến toàn cục khởi tạo giá trị khác 0.
+- Chứa các biến Static được khởi tạo khác 0 cả các biến local vẫn global đều được lưu chung vùng nhớ.
+- Trong quá trình chạy có thể thay đổi được giá trị, có thể đọc và khi như bình thường. Và tất cả các biến sẽ được thu hồi sau khi kết thúc chương trình
+Ở dưới là ví dụ về biến static global và local có thể thấy nó sẽ lưu chung vùng nhớ và 2 biến được khởi tạo khác 0 nên sẽ được lưu ở vùng data. Điểm khác nhau là static local chỉ được sử dụng trong cái hàm chứa biến static local đó.
+**Chương trình ví dụ**
+```C
+#include<stdio.h>
+static int static_glo = 6; // data
+// stack
+void test() {
+
+    static int static_local = 6; // data
+    printf("%d\n", &static_local);
+
+}
+int main(){
+    printf("%d\n", &static_glo);
+    test();
+}
+```
+**Kết quả**
+```
+    4210692 // vùng data
+    4210696 // vùng data
+```
+## 3. Bss Segment (Unitialzed Data Segment)
+- Đây là vùng dữ liệu chưa được khởi tạo, nó sẽ chứa các biến được khởi tạo = 0, hoặc chưa được gắn giá trị
+- Chứa các biến Static được khởi tạo = 0 hoặc chưa được gán giá trị
+- Các biến trong vùng nhớ có thể đọc ghi bình thường. Và khi kết thúc chương trình sẽ thu hồi vùng nhớ.
+**Chương trình ví dụ**
+```C
+#include<stdio.h>
+static int static_glo ; // bss
+// stack
+void test() {
+
+    static int static_local; // bss
+    printf("%d\n", &static_local);
+}
+int main(){
+    printf("%d\n", &static_glo);
+    test();
+}
+```
+**Kết quả**
+```
+    4223008 // vùng bss
+    4223012 // vùng bss
+```
+
+## 4. Stack Segment
+- Đây là vùng sẽ chứa các biến local và các tham số truyền vào.
+- Có thể đọc ghi thay đổi giá trị như bthg trừ các biến const. Và vùng nhớ sẽ bị thu hồi khi ra khỏi hàm. Ngoại lệ sẽ có biến static local khi nó được lưu ở vùng bss hoặc data.
+Như ví dụ bên dưới có thể thấy các biến đều được lưu trữ trong vùng stack dù có khai báo hay không khai báo giá trị miễn là trong hàm thì đều sẽ được lưu ở trong vùng stack
+**Chương trình**
+```C
+#include<stdio.h>
+// stack
+void test(int c, int d) {
+    int e;
+    printf("%d\n",&e);
+}
+int main(){
+    int a = 10;
+    int b;
+    printf("%d\n",&a);
+    printf("%d\n",&b);
+    test(a,b);
+}
+```
+```
+    6422300 \\ stack
+    6422296 \\ stack
+    6422252 \\ stack
+```
+
+## 5. Heap Segment
+- Vùng nhớ này là vùng để cấp phát bộ nhớ động trong quá trình chạy chương trình, đây là vùng nhớ cho phép người lập trình tạo ra và giải phóng bộ nhớ theo ý mình muốn. Điều này sẽ giúp cho cta thay đổi tùy ý dựa vào dữ liệu trong quá trình chạy
+- Có quyền đọc ghi như bình thường trong quá trình chạy. Ở trong C sử dụng các hàm malloc, calloc, realloc, free để tác động vào vùng nhớ HEAP.

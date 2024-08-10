@@ -457,11 +457,11 @@ Image Symbol Table
     i.SystemInit                             0x080004ac   Section        0  system_stm32f10x.o(i.SystemInit)
     i.TIM_Cmd                                0x0800050c   Section        0  stm32f10x_tim.o(i.TIM_Cmd)
     i.TIM_Config                             0x08000524   Section        0  main.o(i.TIM_Config)
-    i.TIM_GetCounter                         0x08000554   Section        0  stm32f10x_tim.o(i.TIM_GetCounter)
-    i.TIM_SetCounter                         0x0800055a   Section        0  stm32f10x_tim.o(i.TIM_SetCounter)
+    i.TIM_GetCounter                         0x08000556   Section        0  stm32f10x_tim.o(i.TIM_GetCounter)
+    i.TIM_SetCounter                         0x0800055c   Section        0  stm32f10x_tim.o(i.TIM_SetCounter)
     i.TIM_TimeBaseInit                       0x08000560   Section        0  stm32f10x_tim.o(i.TIM_TimeBaseInit)
     i.delay                                  0x08000604   Section        0  main.o(i.delay)
-    i.main                                   0x08000628   Section        0  main.o(i.main)
+    i.main                                   0x0800062c   Section        0  main.o(i.main)
     .bss                                     0x20000000   Section       96  libspace.o(.bss)
     HEAP                                     0x20000060   Section      512  startup_stm32f10x_md.o(HEAP)
     Heap_Mem                                 0x20000060   Data         512  startup_stm32f10x_md.o(HEAP)
@@ -630,12 +630,12 @@ Image Symbol Table
     RCC_Config                               0x080003b1   Thumb Code    20  main.o(i.RCC_Config)
     SystemInit                               0x080004ad   Thumb Code    78  system_stm32f10x.o(i.SystemInit)
     TIM_Cmd                                  0x0800050d   Thumb Code    24  stm32f10x_tim.o(i.TIM_Cmd)
-    TIM_Config                               0x08000525   Thumb Code    48  main.o(i.TIM_Config)
-    TIM_GetCounter                           0x08000555   Thumb Code     6  stm32f10x_tim.o(i.TIM_GetCounter)
-    TIM_SetCounter                           0x0800055b   Thumb Code     4  stm32f10x_tim.o(i.TIM_SetCounter)
+    TIM_Config                               0x08000525   Thumb Code    50  main.o(i.TIM_Config)
+    TIM_GetCounter                           0x08000557   Thumb Code     6  stm32f10x_tim.o(i.TIM_GetCounter)
+    TIM_SetCounter                           0x0800055d   Thumb Code     4  stm32f10x_tim.o(i.TIM_SetCounter)
     TIM_TimeBaseInit                         0x08000561   Thumb Code   122  stm32f10x_tim.o(i.TIM_TimeBaseInit)
-    delay                                    0x08000605   Thumb Code    36  main.o(i.delay)
-    main                                     0x08000629   Thumb Code    52  main.o(i.main)
+    delay                                    0x08000605   Thumb Code    40  main.o(i.delay)
+    main                                     0x0800062d   Thumb Code    48  main.o(i.main)
     Region$$Table$$Base                      0x08000660   Number         0  anon$$obj.o(Region$$Table)
     Region$$Table$$Limit                     0x08000670   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x20000000   Data          96  libspace.o(.bss)
@@ -724,13 +724,12 @@ Memory Map of the image
     0x080003cc   0x080003cc   0x000000e0   Code   RO         1050    i.SetSysClockTo72   system_stm32f10x.o
     0x080004ac   0x080004ac   0x00000060   Code   RO         1052    i.SystemInit        system_stm32f10x.o
     0x0800050c   0x0800050c   0x00000018   Code   RO          498    i.TIM_Cmd           stm32f10x_tim.o
-    0x08000524   0x08000524   0x00000030   Code   RO            6    i.TIM_Config        main.o
-    0x08000554   0x08000554   0x00000006   Code   RO          517    i.TIM_GetCounter    stm32f10x_tim.o
-    0x0800055a   0x0800055a   0x00000004   Code   RO          563    i.TIM_SetCounter    stm32f10x_tim.o
-    0x0800055e   0x0800055e   0x00000002   PAD
+    0x08000524   0x08000524   0x00000032   Code   RO            6    i.TIM_Config        main.o
+    0x08000556   0x08000556   0x00000006   Code   RO          517    i.TIM_GetCounter    stm32f10x_tim.o
+    0x0800055c   0x0800055c   0x00000004   Code   RO          563    i.TIM_SetCounter    stm32f10x_tim.o
     0x08000560   0x08000560   0x000000a4   Code   RO          569    i.TIM_TimeBaseInit  stm32f10x_tim.o
-    0x08000604   0x08000604   0x00000024   Code   RO            7    i.delay             main.o
-    0x08000628   0x08000628   0x00000038   Code   RO            8    i.main              main.o
+    0x08000604   0x08000604   0x00000028   Code   RO            7    i.delay             main.o
+    0x0800062c   0x0800062c   0x00000034   Code   RO            8    i.main              main.o
     0x08000660   0x08000660   0x00000010   Data   RO         1253    Region$$Table       anon$$obj.o
 
 
@@ -755,7 +754,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       200          8          0          0          0     239103   main.o
+       202          8          0          0          0     239103   main.o
         64         26        236          0       1536        844   startup_stm32f10x_md.o
        286          0          0          0          0       3244   stm32f10x_gpio.o
         64         12          0          0          0       1170   stm32f10x_rcc.o
@@ -765,7 +764,7 @@ Image component sizes
     ----------------------------------------------------------------------
       1144        116        252          0       1536     249585   Object Totals
          0          0         16          0          0          0   (incl. Generated)
-         4          0          0          0          0          0   (incl. Padding)
+         2          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 

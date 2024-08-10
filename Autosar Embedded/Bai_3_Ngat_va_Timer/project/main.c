@@ -18,7 +18,7 @@ void TIM_Config(){
 	/*Gia tri quyet dinh sau bao xung mhz dem len 1 lan, tuc la sau bao nhieu dao dong se dem len 1 lan*/
 	// 1 dao dong ton: 1/72m s
 	// 1ms = 10^6s
-	Tim_InitStruct.TIM_Prescaler = 72 - 1; // 72*1/72m = 1/1000000= 1ms
+	Tim_InitStruct.TIM_Prescaler = 36000 - 1; // 72*1/72m = 1/1000000= 1ms
 	
 	/*Sau bao nhieu gia tri dem no se tran -> reset lai thanh ghi*/
 	Tim_InitStruct.TIM_Period = 0xFFFF; // tuc la nhay len 1000 lan reset ve 0
@@ -43,9 +43,10 @@ void GPIO_Config(){
 	GPIO_Init(GPIOC,&GPIO_InitStruct);
 }
 
+/*1 giay nhay 1 lan*/
 void delay(uint32_t timedelay){
 	TIM_SetCounter(TIM2,0);
-	while(TIM_GetCounter(TIM2)<timedelay * 10);
+	while(TIM_GetCounter(TIM2)<timedelay * 1000);
 }
 
 int main(){
@@ -54,9 +55,9 @@ int main(){
 	GPIO_Config();
 	while(1){
 		GPIO_SetBits(GPIOC, GPIO_Pin_13);
-		delay(5000);
+		delay(1);
 		GPIO_ResetBits(GPIOC, GPIO_Pin_13);
-		delay(5000);
+		delay(1);
 	}
 }
 

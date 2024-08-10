@@ -67,9 +67,9 @@ void delay_s(uint16_t delays){ // 1 /1000 = 0.001 -> 0.001 * 1000 = 1s
 		while(TIM_GetCounter(TIM2) < delays*1000);
 }
 /*function delay m giay*/
-void delay_ms(uint16_t delayms){	// 1 /1000 = 0.001 -> 0.001 * 0.1 = 1ms
+void delay_ms(uint16_t delayms){	// 1 /1000 = 0.001
 		TIM_SetCounter(TIM2, 0);
-		while(TIM_GetCounter(TIM2) < delayms*0.1);
+		while(TIM_GetCounter(TIM2) < delayms);
 }
 
 void SPI_Clock(){
@@ -121,6 +121,18 @@ uint8_t SPI_Receive(){
 }
 	
 int main(){
-	
-	
+	uint8_t data[] = {};
+	RCC_Config();
+	SPI_Cofnig();
+	SPI_Init();
+	while(1)
+		{	
+        while(GPIO_ReadInputDataBit(SPI_GPIO,SPI_SS_Pin)!=0);
+        if(GPIO_ReadInputDataBit(SPI_GPIO, SPI_SS_Pin)==0){
+            for(int i = 0; i<8; i++){
+            data[i] = SPI_Receive();
+            }
+        }
+		}
+
 }
