@@ -14,19 +14,192 @@ là quá trình biên dịch từ mã người dùng sang mã máy. Nó sẽ bao
 - Quá trình Linking: Là quá trình ta gộp tất cả các file.o vào để tạo ra file cuối cùng để thực thi
                         gcc -v -o main main.o //(thêm các file.o nối đuôi main.o nếu có)
 
+Ví dụ chương trình dưới đây
+
+**main.c**
+```C
+#include "func1.h"
+int main()
+{
+    In_Tong(5,6);
+}
+```
+
+**func1.c**
+```C
+#include "func1.h"
+void In_Tong(int a, int b){
+    printf("%d\n",a+b);
+}
+```
+**func1.h**
+```C
+#ifndef __FUNC_H__
+
+#define __FUNC_H__
+
+
+#include <stdio.h>
+
+void In_Tong(int a, int b);
+
+#endif
+```
+- Giải thích: Chương trình main sẽ là chương trình thực thi , chương trình func1.h sẽ lưu các thư viện và các nguyên mẫu hàm của chương trình func1.c, chương trình func1.c sẽ chưá các hàm cung cấp cho chương trình khác.
+Bắt đầu với quá trình Processing khi ta sử dụng gcc -E main.c -o main.i trong command line thì file main.i sẽ được tạo ra, nội dung include func1.h bao gồm cả các #include trong file func1.h cũng được hết ra ở file main.i 
+**file main.i**
+```C
+#nội dung stdio.h
+....
+....
+# 7 "func1.h" 2
+
+
+# 8 "func1.h"
+void In_Tong(int a, int b);
+# 2 "main.c" 2
+
+
+int main()
+{
+    In_Tong(5,6);
+}
+```
+Tiếp theo là quá trinhf Compiler ta sẽ sử dụng gcc -S main.i -o main.s để tạo ra 1 file assembly nó sẽ gần với ngôn ngữ máy -> máy tính của chúng ta sẽ hiểu được ngôn ngữ đấy, quá trình này giôngs như là người phiên dịch, là cầu nối giữa file.c người dùng và file.o(file mã máy). Sau khi thực thi main.s sẽ có nội dung như sau:
+
+**file main.s**
+```S
+	.file	"main.c"
+	.def	___main;	.scl	2;	.type	32;	.endef
+	.text
+	.globl	_main
+	.def	_main;	.scl	2;	.type	32;	.endef
+_main:
+LFB10:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	andl	$-16, %esp
+	subl	$16, %esp
+	call	___main
+	movl	$6, 4(%esp)
+	movl	$5, (%esp)
+	call	_In_Tong
+	movl	$0, %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE10:
+	.ident	"GCC: (MinGW.org GCC-6.3.0-1) 6.3.0"
+	.def	_In_Tong;	.scl	2;	.type	32;	.endef
+
+```
+Tiếp theo là quá trình assembler quá trình này ta sẽ sử dụng trình biên dịch của ngôn ngữ Assembly biên dịch ra mã máy file.o -> đây là mã mà máy tính dùng để chạy
+as main.s -o main.o. Vì đây là ngôn ngữ của mã máy nên cta không hiểu gì hết :)) nên để người dungf dễ hiểu từ đó mới sinh ra các file như file.hex
+
+**file main.o**
+```C
+    L     ‚       .text           ,   Ü   d           0`.data                               @ 0À.bss                                € 0À/4              $                 @ 0@/15             8   ,  x         @ 0@U‰åƒäðƒìè    ÇD$   Ç$   è    ¸    ÉÃGCC: (MinGW.org GCC-6.3.0-1) 6.3.0         zR |ˆ           )    A…B
+eÅ  
+                      .file       þÿ  gmain.c            _main                            .text          )                .data                            .bss                                           #                     $          8                ___main          _In_Tong         .   .rdata$zzz .eh_frame .rdata$zzz .eh_frame 
+```
+Tiếp theo là quá trình Linking: Như ta thấy ở 3 chương trình ví dụ thì file main.c vẫn chưa thể chạy đúng dù có phần nguyên mẫu hàm của chương trình fun1.c ở trong file func1.h nhưng nội dung của hàm In_Tong() ta vẫn chưa biết và nó nằm ở trong chương trình func1.c. vậy nên ta mới cần quá trinhf Linking để liên kết 2 chương trình vào với nhau gcc -v -o main main.c func1.o -> tạo ra file main.exe. Để tạo ra file.o nhanh ta có thể sử dụng gcc -c func1.c -o func1.o
+**Kết quả**
+```
+11
+```
+
 ## 2. Macro
 Là các chỉ thị tiền xử lý được xử lí trong quá trình Preprocessor gồm:
-- #include -> để thêm nội dung các source file khác vào chương trình thường là các source .h
+- #include -> để thêm nội dung các file khác vào chương trình thường là các source .h
+**Ví dụ**
+```C
+    #include <stdio.h>
+    #include "test.txt"
+    ...
+```
 - #define -> Dùng để thay thế nội dung này thành 1 nội dung khác mà mình định nghĩa trước khi chương trình biên dịch
+**Ví dụ**
+```C
+#define a 100
+#define Tong_Func(a,b)   \
+printf("tong 2 so = %d\n",a+b);
+....
+```
 - #ifdef, #ifndef, #if, #elif, #else -> Với #if nếu điều kiện if đúng tức là đã được define trước đó đúng với điều kiện thì mã nguồn dưới if sẽ được thực thi, tương tự với #elif và #else. Còn với #ifdef và ifndef -> thì nếu define đấy mà chưa được định nghĩa thì khi sẽ thực thi mã nguồn dưới ifndef. Tương tự với ifdef nếu define đó được định nghĩa rồi thì chạy mã lệnh bên dưới. Cả 2 gặp #endif là sẽ kết thúc
+**Ví dụ ifdef và ifndef**
+```C
+#include <stdio.h>
+#define __FUNC__
+
+#ifdef __FUNC__
+    void test(){
+        printf("Hello");
+    }
+
+#endif
+
+#ifndef __FUNC__
+    void test(){
+        printf("Hi");
+    }
+
+#endif
+int main()
+{
+    test();
+}
+
+```
+**Ví dụ #if # elif #else**
+```C
+#include <stdio.h>
+#define DEFINE_1    0
+#define DEFINE_2    1
+#define DEFINE_3    2
+#define CALL_DEFINE DEFINE_1
+#if(CALL_DEFINE == DEFINE_1)
+    void test(){
+        printf("Define 1");
+    }
+#elif(CALL_DEFINE == DEFINE_2)
+    void test(){
+        printf("Define 2");
+    }
+#else
+    void test(){
+        printf("Define 3");
+    }
+#endif
+int main()
+{
+    test();
+}
+```
 
 - Macro không phải kiểu dữ liệu nào cả mà cũng có không có kích thước cụ thể vì nó xảy ra ở quá trình tiền xử lý và nó thay thế cái đoạn được định nghĩa vào
 
 - Dùng macro giúp chương trình chạy nhanh hơn nhưng size của chương trình sẽ tăng. Còn dùng function nó sẽ xảy ra quá trình Function Call làm chậm chương trình đặc biệt với funcion được gọi nhiều lần
 
 - Dùng ## để nối chuoi trong macro
-
+**Ví dụ**
+```C
+#define CREATE_VAR(name, number) \
+int int_##name = number; \
+char char_##name; \
+double double_##name
+```
 - Va_args được sử dụng khi không xác định được tham số đầu vào trong macro. Cấu trúc được viết (...) __VA_ARGS__
+```C
+#define ARRAY(number,...) \
+int array(number) = {__VA_ARGS__};
+```
+
 
 # BÀI POINTER:
 
@@ -604,3 +777,27 @@ int main(){
 ## 5. Heap Segment
 - Vùng nhớ này là vùng để cấp phát bộ nhớ động trong quá trình chạy chương trình, đây là vùng nhớ cho phép người lập trình tạo ra và giải phóng bộ nhớ theo ý mình muốn. Điều này sẽ giúp cho cta thay đổi tùy ý dựa vào dữ liệu trong quá trình chạy
 - Có quyền đọc ghi như bình thường trong quá trình chạy. Ở trong C sử dụng các hàm malloc, calloc, realloc, free để tác động vào vùng nhớ HEAP.
+
+# JSON AND LINKED LIST
+
+## JSON
+- Khái niệm: JSON (JavaScript Object Notation - ghi chú về hướng đối tượng JavaScript) đây là 1 kiểu định dạng dữ liệu tuân theo 1 quy tắc nhất định mà hầu hết các ngôn ngữ đều có thể đoc được. JSON là 1 tiêu chuẩn mở để trao đổi dữ liệu giữa máy tính với web, cũng như giữa các hệ thống khác nhau.
+- JSON sử dụng cú pháp dựa trên cặp: khóa - giá trị (key : value) để sử dụng dữ liệu. Chuỗi JSON được bao lại bởi dấu ngoặc nhọn {}, các key hoặc value đều phair nằm trong dấu ngoặc kép "key". Giữa các cặp key-value sử dụng dấu phẩy để ngăn
+**VD:**
+```C
+{
+    "name" : "Lam",
+    "age" : 30,
+    "friend" : "[hoa, mai]",
+}
+```
+## LINKED LIST
+- Là 1 cấu trúc dữ liệu được sử dụng để tổ chức và lưu trữ dữ liệu. Một linked list bao gồm 1 chuỗi các node. Các node này sẽ lưu trữ dữ liệu và 1 biến con trỏ, trỏ tới địa chỉ tiếp theo (đối với Singlely Linked List), hoặc thêm 1 biến trỏ tới địa chỉ trước đó (đối với Doubly Linked List). Linked list sẽ cung cấp linh hoạt việc thêm, chèn, xóa các phần tử ra khỏi linked list mà không cần phải dichj chuyển toàn bộ các phần tử như trong mảng.
+Dưới đây ta sẽ khai báo 1 node cho linked list:
+**Ví dụ**
+```C
+    typedef struct Node{
+        int value;
+        Node *next;
+    }Node; 
+```
