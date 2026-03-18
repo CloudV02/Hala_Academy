@@ -133,6 +133,13 @@ nói đơn giản thì timer là 1 bộ đếm (đếm lên hoặc xuống) bên
 
 Tổng kết: Thì Prescaler(bộ chia tần) sẽ quyết định tốc độ nhảy từ 0->1 của giá trị trong thanh ghi CNT, còn ARR sẽ quyết định giá trị tràn của CNT, ví dụ như ARR = 1000, thì CNT sẽ đếm đến 1000 rồi quay về 0, với tốc độ = 1000*(thời gian mà nó nhảy lên 1 tick).
 
+**Nói về Systick timer**
+Thì tại sao lại nói về systick timer thì cơ bản timer của systick hơi khác 1 chút, không giống như bộ TIMER thì timer trong Systick không có bộ chia tần.
+Thì trong Systick cơ bản sẽ 3 thanh ghi 
+- CTRL: thì đây là thanh ghi điều khiển để enable, interrput hay clock source cho Systick, chứ nó không trực tiếp điều khiển timer. 
+- LOAD: đây là thanh ghi quan trong để set timer, thì mình sẽ nạp giá trị ở đây. Và ở đây quy ước 16000000 là 1s mà ta có 1s = 1000ms -> 16000 là 1ms. Đó còn nếu /10^6 là us, ncl chỗ này t không biết phải giải thích ki hơn như nào :)) Như kiểu ví dụ vui vui giờ t thích cho là 5k là đổi lấy 1s cuộc đời, thì suy ra 5xu là đổi được 1ms cuộc đời :)) (1s = 1000ms tương đương 5k = 5000xu -> 1000ms = 5000xu -> 1ms = 5xu :)) đơn vị đổi time thoi) 
+- VAL: là lấy giá trị đếm hiện tại, tức là khi ta điền LOAD là nó sẽ đếm từ giá trị LOAD đó về 0. Còn VAL nó chỉ đơn giản là để lấy 1 giá trị hiện tại nó đang đếm thoi.
+
 </details>
 <details>
 <summary> <h1>CÁC CHUẨN GIAO TIẾP</h1></summary>

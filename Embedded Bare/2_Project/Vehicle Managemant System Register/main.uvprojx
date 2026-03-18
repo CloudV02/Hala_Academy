@@ -419,6 +419,31 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>sdmm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\sdmm.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtos.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\rtos.c</FilePath>
+            </File>
+            <File>
+              <FileName>osKernel.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\osKernel.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -454,100 +479,30 @@
               <FileType>5</FileType>
               <FilePath>.\servo.h</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Middlewares</GroupName>
-          <Files>
             <File>
-              <FileName>diskio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\diskio.c</FilePath>
+              <FileName>uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\uart.h</FilePath>
             </File>
             <File>
               <FileName>diskio.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\diskio.h</FilePath>
-            </File>
-            <File>
-              <FileName>ff.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\ff.c</FilePath>
+              <FilePath>.\diskio.h</FilePath>
             </File>
             <File>
               <FileName>ff.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\ff.h</FilePath>
-            </File>
-            <File>
-              <FileName>ff_gen_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>ff_gen_drv.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h</FilePath>
-            </File>
-            <File>
-              <FileName>ffconf_template.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\ffconf_template.h</FilePath>
-            </File>
-            <File>
-              <FileName>integer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\integer.h</FilePath>
-            </File>
-            <File>
-              <FileName>unicode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\option\unicode.c</FilePath>
-            </File>
-            <File>
-              <FileName>syscall.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Middlewares\Third_Party\FatFs\src\option\syscall.c</FilePath>
+              <FilePath>.\ff.h</FilePath>
             </File>
             <File>
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\fatfsAplication\ffconf.h</FilePath>
+              <FilePath>.\ffconf.h</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>fatfsAplication</GroupName>
-          <Files>
             <File>
-              <FileName>fatfs_sd.h</FileName>
+              <FileName>rtos.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\fatfsAplication\fatfs_sd.h</FilePath>
-            </File>
-            <File>
-              <FileName>fatfs_sd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfsAplication\fatfs_sd.c</FilePath>
-            </File>
-            <File>
-              <FileName>fatfs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfsAplication\fatfs.c</FilePath>
-            </File>
-            <File>
-              <FileName>fatfs.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\fatfsAplication\fatfs.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_diskio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfsAplication\user_diskio.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_diskio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\fatfsAplication\user_diskio.h</FilePath>
+              <FilePath>.\rtos.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,0 +1,17 @@
+Phân tích luồng code 
+đầu tiên với
+FRESULT f_mount (FATFS* fs, const TCHAR* path, BYTE opt):
+- oke tổng thể f_mount() nó sẽ sử dụng 1 đống hàm bên dưới (tí t sẽ nói hàm này sau), nma cơ bản mục đích cuối cùng sau khi chạy hàm này, thì nó sẽ giúp stm32 hiểu được cấu trúc của 1 file FAT như nào. Tức là giờ stm32 đã nắm toàn bộ cấu trúc của FAT FS.
++ FATFS* fs: đọc toàn bộ thông tin của filesystem, tức là nó tìm tới sd card và tìm tới phần cứng của thẻ ssd để đọc boot sector. Ở boot sector này chứa toàn bộ thông tin của ssd, xong nó sẽ gán vào fs.
++ const TCHAR* path: giống kiểu khai báo ổ đĩa gắn cho stm32. Tức là ví dụ còn nhiều ổ đĩa khác, không chỉ có mỗi SD Card, thì giờ ta cần đặt tên cho ổ đĩa thoi. Thì như ở trong code stm32 nó chỉ khai báo 1 ổ đĩa ảo là 0 -> nếu ta điền là 1 và 2 ... thì nó sẽ trả về là lỗi, vì các ổ đĩa 1-2 kia không được code xử lý, chỉ có 0 là code được xử lý thoi. Như ở trong disk_initialize nó chỉ check path ==0, không có các trường hợp khác
++ BYTE opt: đơn giản thoi là mình có muốn mount(gắn) ngay lập tức không (tức là đọc boot sector luôn không), nếu có thì ghi 1. Còn nếu 0, thì tí gọi f_open nó sẽ mount
+
+Oke vào trong f_mount nó làm gì? Thì f_mount này nằm trong file ff.c
++ Đầu tiên nó vào nó sẽ check cái path kia là driver number bao nhiêu thông qua hàm get_ldnumber(). Thì cái path ấy ta có thể ghi "0:/data.txt", nên là nó cần phải lọc xem cái driver number là bao nhiêu. Thì ở đây là 0.
+
++ res = find_volume(&path, &fs, 0);	/* Force mounted the volume */ tiếp đến sau 1 loạt bước gắn các kiểu, thì đến hàm này, là ta đã định được volume muốn force vào stm32, và đến hàm này ta sẽ mount. Thì cái hàm này khác cái hàm f_mount kia ở chỗ là cái parameter thứ 3, thì í nó muốn nói là bắt đầu quá trình ghi vào thì phải. Oke thì ở cái hàm này nó sẽ check fs-> fs_type xem nó có phải là 1 driver mới không và sẽ nhảy vào stat = disk_initialize(fs->drv) /* Initialize the physical drive */
+
++ stat = disk_initialize(fs->drv) /* Initialize the physical drive */
+thì khi nhảy vào hàm này nó bị lỗi. Thì ta phải check fs->drv là cái gì? thì đó là driver number :)) chính là cái path = "0:" ấy thì nó trả về là số 0. Và ở trong disk_initialize cũm chỉ check đúng 1 số 0.
+Còn vấn đề sao nó bị lỗi, thì không phải do lỗi do logic, mà là lỗi crack bộ nhớ
+

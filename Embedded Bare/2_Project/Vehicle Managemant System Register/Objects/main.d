@@ -24,8 +24,6 @@
 .\objects\main.o: i2c.h
 .\objects\main.o: delay.h
 .\objects\main.o: servo.h
-.\objects\main.o: .\Middlewares\Third_Party\FatFs\src\ff.h
-.\objects\main.o: .\Middlewares\Third_Party\FatFs\src\integer.h
-.\objects\main.o: .\fatfsAplication\ffconf.h
-.\objects\main.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
-.\objects\main.o: .\spi.h
+.\objects\main.o: ff.h
+.\objects\main.o: ffconf.h
+.\objects\main.o: rtos.h

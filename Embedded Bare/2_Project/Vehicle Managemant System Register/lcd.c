@@ -17,6 +17,7 @@ void LCD_Write_Command(uint8_t command){
 }
 
 void LCD_Write_Char(uint8_t data){
+	volatile ErrorStatus check;
 	
 	char data_u, data_l;
 	uint8_t data_t[4];
@@ -27,7 +28,7 @@ void LCD_Write_Char(uint8_t data){
 	data_t[2] = data_l | 0x0D;  //en=1, rs=0
 	data_t[3] = data_l | 0x09;  //en=0, rs=0
 	
-	I2C_Write(I2C1,ADDRESS_LCD_SLAVE, data_t,4);
+	check = I2C_Write(I2C1,ADDRESS_LCD_SLAVE, data_t,4);
 }
 
 void LCD_Write_4Bits(uint8_t half_data){
@@ -40,6 +41,8 @@ void LCD_Write_4Bits(uint8_t half_data){
 	I2C_Write(I2C1,ADDRESS_LCD_SLAVE, data_t,2);
 }
 void LCD_Init(void){
+	
+	I2C_LCD_Init();
 	/*Wait LCD khoi dong*/
 	DelayMs(50);
 	/*Select 4 bit mode */
@@ -52,13 +55,13 @@ void LCD_Init(void){
 	LCD_Write_4Bits(0x02); // DB4 = DL = 0, DB5 = 1
 	/*Set function set*/
 	LCD_Write_Command(0x28);
-	/*Display Off: Off before to clear monitor*/
-	LCD_Write_Command(0x0C);
-	/*Clear display or return home*/
+	/*return home*/
 	LCD_Write_Command(0x80);
-	
+	/*Use cursor*/
+	LCD_Write_Command(0x0F);
+	/*clear display*/
 	LCD_Write_Command(0x01);
-	DelayUs(50);
+	DelayMs(2);
 }
 
 /*ham truyen chuoi*/
@@ -72,7 +75,9 @@ void LCD_Print(char *str)
 }
 
 void LCD_Clear_Display(void){
+	//LCD_Write_Command(0x80);
 	LCD_Write_Command(0x01);
+	DelayMs(2);
 }
 
 void LCD_Write(uint8_t *data){

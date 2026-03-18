@@ -1,0 +1,2 @@
+This is a simple file write example.
+This is a second simple file write example

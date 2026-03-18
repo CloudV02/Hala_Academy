@@ -1,6 +1,6 @@
 #include "i2c.h"
 
-void I2C_init(void){
+void I2C_LCD_Init(void){
 	/*Clock*/
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_AFIO,ENABLE);
 	/*I2C1*/
@@ -11,8 +11,6 @@ void I2C_init(void){
 	GPIO_InitType.GPIO_Mode = GPIO_Mode_AF_OD;
 	GPIO_InitType.GPIO_Speed = GPIO_Speed_50MHz;
 	
-	RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C1, ENABLE);
-  RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C1, DISABLE);
 	
 	I2C_InitTypeDef I2C_InitType;
 	I2C_InitType.I2C_Mode = I2C_Mode_I2C;

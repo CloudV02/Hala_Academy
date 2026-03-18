@@ -40,6 +40,17 @@ void RC522_SPI_Config(void){
 	
 	SPI_Init(SPI1,&SPI_InitType);
 	SPI_Cmd(SPI1,ENABLE);
+	/*
+	* Enable IRQ
+	* With 1 means RXMIE has data
+	*/
+	//SPI1->CR2 |= (1<<6); // bit RXNEIE
+	
+	/**
+	* Set Priotity for SPI1 or RFID 
+	*/
+	/*NVIC_SetPriority(SPI1_IRQn, 1);
+	NVIC_EnableIRQ(SPI1_IRQn);*/
 	
 }
 
@@ -66,9 +77,7 @@ void SDCard_SPI_Config(void){
 	GPIO_InitType.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitType.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_Init(GPIOB, &GPIO_InitType);
-	
-	GPIO_SetBits(GPIOB,GPIO_Pin_12);
-	/*SPI*/
+		/*SPI*/
 	SPI_InitTypeDef SPI_InitType;
 	SPI_InitType.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
 	SPI_InitType.SPI_CPHA = SPI_CPHA_1Edge;
@@ -100,3 +109,15 @@ uint8_t SPI_TransmitRecive(SPI_TypeDef *SPIx, uint8_t data){
 	return SPI_I2S_ReceiveData(SPIx);
 
 }
+
+/**
+* Use for SD Card
+*/
+uint8_t My_SPI_Exchange(uint8_t u8Data)
+{
+	SPI_I2S_SendData(SPI2, u8Data);
+	while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET) {
+	}
+	return SPI_I2S_ReceiveData(SPI2);
+}
+

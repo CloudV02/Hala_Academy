@@ -24,5 +24,6 @@ void LCD_Write_Command(uint8_t command);
 void LCD_Init(void);
 void LCD_Print(char *str);
 void LCD_NewLine(void);
+void LCD_Clear_Display(void);
 
 #endif

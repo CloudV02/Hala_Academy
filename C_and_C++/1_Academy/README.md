@@ -861,8 +861,7 @@ việc biến đó là global hay local thì phạm vi hoạt động nó sẽ k
 địa chỉ cho biến static ta phải khai báo bên ngoài class và được khai báo bên ngoài hàm main vd: int SinhVien::Test = 10; như vậy ta đã cấp được vùng nhớ cho biến 
 static và biến static tất cả các object của class sẽ dùng chung địa chỉ với nó. Các hàm trong class thì đều có thể sử dụng biến static.
 + Với hàm static: Điểm đầu tiên 1 function static khác với 1 biến static là nó độc lập với bất kì object nào trong class tức là không cần có object nó cũm có thể
-gọi được dữ liệu ra nên không cần 1 object nào thì static function cũm được gọi ra. Ngoài ra nó có phạm vi bên trong lớp và không thể trỏ bởi object. Và đối với hàm
-static thì chỉ sử dụng các biến static và hàm static bên trong hàm.
+gọi được dữ liệu ra nên không cần 1 object nào thì static function cũm được gọi ra, vậy muốn gọi 1 hàm static ta sẽ chỉ cần gọi trực tiếp với class, ví dụ SinhVien::Name();. Ngoài ra nó có phạm vi bên trong lớp và không thể trỏ bởi object. Và đối với hàm static thì chỉ sử dụng các biến static và hàm static bên trong hàm (tức là những cái property và method bên ngoài hàm, muốn chui vào trong method static thì các cái property và method bên ngoài phải là static, chứ nếu là biến thông thường gọi vào trong method static sẽ bị lỗi). Thì nói về việc các hàm static thì nếu mà gọi ngoài class thì ta mới cần SinhVien::Name(), còn nếu ở trong class ví dụ ta có 1 method khác nằm trong class mà gọi tới Name() này, thì ta không cần phải SinhVien::Name() mà chỉ cần gọi Name() là compiler nó sẽ tự hiểu đó là SinhVien::Name(). Oke về ví dụ phần này ta sẽ nói rõ ở bài 101 của C#
 
 - Các quyền truy cập trong class:
 + public: cho phép object lẫn class con truy cập tới
@@ -884,6 +883,9 @@ class SinhVien{
         static int Test;
     /* nhung member nam trong private thi object khong dung toi dc, no chi co gia tri tai class */
         int test2;
+        static void Name(void){
+            cout << "This is static function"<<endl;
+        }
     private:
         int ID ;             // property - thuộc tính
         string TEN;
@@ -892,6 +894,9 @@ class SinhVien{
 
 int SinhVien::Test = 10;
 int SinhVien::test2 = 20;
+
+/*gọi function static*/
+void SinhVien::Name();
 
 void SinhVien::display(){     // method
             cout<<"MSV: "<<ID<<endl;

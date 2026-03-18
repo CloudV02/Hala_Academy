@@ -18,7 +18,7 @@ void Servo_PWM_Init(void)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 	
 	/*TIM2 default use 8Mhz of HSI -> 8/8 000 000 = 0.000001*/
-	/*xem RCC reset value cua thanh ghi RCC_CR = 0x83 -> HSI luon ON, con nhung cai khac off*/
+	/*xem RCC reset value cua thanh ghi RCC_CR = 0x83 -> HSI luon ON, con nhung c	ai khac off*/
 	TIM_TimeBaseInitStruct.TIM_Prescaler = 8-1;
 	
 	/*0.000001*20 000 = 0.02s -> 0.02*1000 = 20ms*/

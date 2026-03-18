@@ -1,0 +1,16 @@
+Làm hệ thống 
+- có 2 servo quay (nên mua servo lớn để làm) (Timer, PWM) (cho nó từ từ xoay)
+- log vào ssid mỗi thẻ sẽ có file riêng lưu thời điểm ra vào (SPI)
+- quét rfid (SPI)
+- dùng ADC cảm biết nhiệt độ (ADC)
+- hiện thị các thông tin đơn giản với LCD (I2C)
+- Giao tiếp với esp32 để bootloader (UART)
+
+- thử nghiên cứu xem có ứng dụng nào dùng PID trong đó đk
+- OTA với esp32 (IoT)
+- Ứng dụng RTOS với các task
+
+
+Có dashboard trên PC (tạo = C++ hoặc C#)
+- hiện thị xe nào vào và ra, nhiệt độ nhà xe, mở quản lý check thông tin các thẻ rfid
+- điều khiển mở servo thủ công
